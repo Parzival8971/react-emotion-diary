@@ -5,6 +5,12 @@ const sortOptionList = [
   { value: 'oldest', name: '오래된 순' },
 ];
 
+const filterOptionList = [
+  { value: 'all', name: '전부다' },
+  { value: 'good', name: '좋은 감정만' },
+  { value: 'bad', name: '안좋은 감정만' },
+];
+
 const ControlMenu = ({ value, onChange, optionList }) => {
   return (
     <select value={value} onChange={(e) => onChange(e.target.value)}>
@@ -19,9 +25,18 @@ const ControlMenu = ({ value, onChange, optionList }) => {
 
 const DiaryList = ({ diaryList }) => {
   const [sortType, setSortType] = useState('lastest');
-  JSON.parse(JSON.stringify(diaryList));
+  const [filter, setFilter] = useState('all');
 
   const getProcessedDiaryList = () => {
+    const filterCallBack = (item) => {
+      if (filter === 'good') {
+        console.log(parseInt(item.emotion) <= 3);
+        return parseInt(item.emotion) <= 3;
+      } else {
+        return parseInt(item.emotion) > 3;
+      }
+    };
+
     const compare = (a, b) => {
       if (sortType === 'latest') {
         return parseInt(b.date) - parseInt(a.date);
@@ -31,7 +46,10 @@ const DiaryList = ({ diaryList }) => {
     };
 
     const copyList = JSON.parse(JSON.stringify(diaryList));
-    const sortedList = copyList.sort(compare);
+    const filteredList =
+      filter === 'all' ? copyList : copyList.filter((it) => filterCallBack(it));
+
+    const sortedList = filteredList.sort(compare);
     return sortedList;
   };
 
@@ -42,8 +60,15 @@ const DiaryList = ({ diaryList }) => {
         onChange={setSortType}
         optionList={sortOptionList}
       />
+      <ControlMenu
+        value={filter}
+        onChange={setFilter}
+        optionList={filterOptionList}
+      />
       {getProcessedDiaryList().map((it) => (
-        <div key={it.id}>{it.content}</div>
+        <div key={it.id}>
+          {it.content} {it.emotion}
+        </div>
       ))}
     </div>
   );
