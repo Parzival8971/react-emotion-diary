@@ -37,12 +37,6 @@ const reducer = (state, action) => {
   return newState;
 };
 
-// COMPONENTS
-// import MyButton from './componets/MyButton';
-// import MyHeader from './componets/MyHeader';
-
-/* <img src={process.env.PUBLIC_URL + `/assets/emotion1.png`} /> */
-
 export const DiaryStateContext = React.createContext();
 export const DiaryDispatchContext = React.createContext();
 
@@ -123,38 +117,6 @@ function App() {
       <DiaryDispatchContext.Provider value={{ onCreate, onEdit, onRemove }}>
         <BrowserRouter>
           <div className='App'>
-            {/* <MyHeader
-          headText={'App'}
-          leftChild={
-            <MyButton text={'왼쪽 버튼'} onClick={() => alert('왼쪽 클릭')} />
-          }
-          rightChild={
-            <MyButton
-              text={'오른쪽 버튼'}
-              onClick={() => alert('오른쪽 클릭')}
-            />
-          }
-        />
-
-        <div>App.js</div>
-
-        <MyButton
-          text={'버튼'}
-          onClick={() => alert('버큰 클릭')}
-          type={'positive'}
-        />
-        <MyButton
-          text={'버튼'}
-          onClick={() => alert('버큰 클릭')}
-          type={'negative'}
-        />
-        <MyButton text={'버튼'} onClick={() => alert('버큰 클릭')} />
-        <MyButton
-          text={'버튼'}
-          onClick={() => alert('버큰 클릭')}
-          type={'sfsdf'}
-        /> */}
-
             <Routes>
               <Route path='/' element={<Home />} />
               <Route path='/new' element={<New />} />
