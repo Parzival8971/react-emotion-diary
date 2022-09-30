@@ -4,8 +4,8 @@ import { DiaryStateContext } from '../App';
 import { getStringDate } from '../util/date';
 import { emotionList } from '../util/emotion';
 
-import MyHeader from '../componets/MyHeader';
-import MyButton from '../componets/MyButton';
+import MyHeader from '../components/MyHeader';
+import MyButton from '../components/MyButton';
 
 const Diary = () => {
   const { id } = useParams();

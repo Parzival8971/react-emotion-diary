@@ -95,6 +95,7 @@ function App() {
       },
     });
     dataId.current += 1;
+    console.log(data);
   };
   // REMOVE
   const onRemove = (targetId) => {

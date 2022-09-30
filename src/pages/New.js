@@ -1,4 +1,4 @@
-import DiaryEditor from '../componets/DiaryEditor';
+import DiaryEditor from '../components/DiaryEditor';
 const New = () => {
   return (
     <div>
