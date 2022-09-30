@@ -1,4 +1,10 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { DiaryDispatchContext } from '../App';
 
@@ -16,9 +22,9 @@ const DiaryEditor = ({ isEdit, originData }) => {
   const [date, setDate] = useState(getStringDate(new Date()));
 
   const { onCreate, onEdit, onRemove } = useContext(DiaryDispatchContext);
-  const handleClickEmote = (emotion) => {
+  const handleClickEmote = useCallback((emotion) => {
     setEmotion(emotion);
-  };
+  }, []);
   const navigate = useNavigate();
 
   const handleSubmit = () => {
@@ -26,6 +32,7 @@ const DiaryEditor = ({ isEdit, originData }) => {
       contentRef.current.focus();
       return;
     }
+
     if (
       window.confirm(
         isEdit ? '일기를 수정하시겠습니까?' : '새로운 일기를 작성하시겠습니까?'
