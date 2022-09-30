@@ -19,7 +19,6 @@ const Home = () => {
         curDate.getMonth(),
         1
       ).getTime();
-      // console.log(new Date(firstDay));
 
       const lastDay = new Date(
         curDate.getFullYear(),
@@ -37,7 +36,7 @@ const Home = () => {
   }, [diaryList, curDate]);
 
   useEffect(() => {
-    console.log(data);
+    // console.log(data);
   }, [data]);
 
   const increaseMonth = () => {
