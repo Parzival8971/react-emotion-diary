@@ -16,7 +16,7 @@ const Diary = () => {
   useEffect(() => {
     const titleElement = document.getElementsByTagName('title')[0];
     titleElement.innerHTML = `감정일기장 - ${id}번 일기`;
-  }, []);
+  }, [id]);
 
   useEffect(() => {
     if (diaryList.length >= 1) {
@@ -30,7 +30,7 @@ const Diary = () => {
         navigate('/', { replace: true });
       }
     }
-  }, [id, diaryList]);
+  }, [id, diaryList, navigate]);
 
   if (!data) {
     return <div className='DiaryPage'>로딩중입니다...</div>;
