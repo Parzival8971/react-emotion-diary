@@ -7,6 +7,9 @@ import { emotionList } from '../util/emotion';
 import MyHeader from '../components/MyHeader';
 import MyButton from '../components/MyButton';
 
+import { BiEditAlt } from 'react-icons/bi';
+import { BiArrowBack } from 'react-icons/bi';
+
 const Diary = () => {
   const { id } = useParams();
   const diaryList = useContext(DiaryStateContext);
@@ -40,44 +43,46 @@ const Diary = () => {
     );
 
     return (
-      <div className='DiaryPage'>
-        <MyHeader
-          headText={`${getStringDate(new Date(data.date))} 기록`}
-          leftChild={
-            <MyButton text={'< 뒤로가기'} onClick={() => navigate(-1)} />
-          }
-          rightChild={
-            <MyButton
-              text={'수정하기'}
-              onClick={() => navigate(`/edit/${data.id}`)}
-            />
-          }
-        />
-        <article>
-          <section>
-            <h4>오늘의 감정</h4>
-            <div
-              className={[
-                'diary_img_wrapper',
-                `diary_img_wrapper_${data.emotion}`,
-              ].join(' ')}
-            >
-              <img
-                src={curEmotionData.emotion_img}
-                alt={curEmotionData.emotion_id}
+      <div>
+        <div className='DiaryPage'>
+          <MyHeader
+            headText={`${getStringDate(new Date(data.date))} 감정`}
+            leftChild={
+              <MyButton text={<BiArrowBack />} onClick={() => navigate(-1)} />
+            }
+            rightChild={
+              <MyButton
+                text={<BiEditAlt />}
+                onClick={() => navigate(`/edit/${data.id}`)}
               />
-              <div className='emotion_descript'>
-                {curEmotionData.emotion_descript}
+            }
+          />
+          <article>
+            <section>
+              {/* <h4>{getStringDate(new Date(data.date))}</h4> */}
+              <div
+                className={[
+                  'diary_img_wrapper',
+                  `diary_img_wrapper_${data.emotion}`,
+                ].join(' ')}
+              >
+                <img
+                  src={curEmotionData.emotion_img}
+                  alt={curEmotionData.emotion_id}
+                />
+                <div className='emotion_descript'>
+                  # {curEmotionData.emotion_descript}
+                </div>
               </div>
-            </div>
-          </section>
-          <section>
-            <h4>오늘의 일기</h4>
-            <div className='diary_content_wrapper'>
-              <p>{data.content}</p>
-            </div>
-          </section>
-        </article>
+            </section>
+            <section>
+              <h4>오늘의 감정일기</h4>
+              <div className='diary_content_wrapper'>
+                <p>{data.content}</p>
+              </div>
+            </section>
+          </article>
+        </div>
       </div>
     );
   }

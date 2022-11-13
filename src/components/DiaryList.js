@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import MyButton from './MyButton';
 import DiaryItem from './DiaryItem';
@@ -83,13 +83,14 @@ const DiaryList = ({ diaryList }) => {
           />
         </div>
       </div>
-
-      {getProcessedDiaryList().map((it) => (
-        // <div key={it.id}>
-        //   {it.content} {it.emotion}
-        // </div>
-        <DiaryItem key={it.id} {...it} />
-      ))}
+      <div className='diaryitem_wrapper'>
+        {getProcessedDiaryList().map((it) => (
+          // <div key={it.id}>
+          //   {it.content} {it.emotion}
+          // </div>
+          <DiaryItem key={it.id} {...it} />
+        ))}
+      </div>
     </div>
   );
 };

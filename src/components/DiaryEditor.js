@@ -15,6 +15,10 @@ import EmotionItem from './EmotionItem';
 import { getStringDate } from '../util/date';
 import { emotionList } from '../util/emotion';
 
+import { BiTrash } from 'react-icons/bi';
+import { BiArrowBack } from 'react-icons/bi';
+import { BiCheck } from 'react-icons/bi';
+
 const DiaryEditor = ({ isEdit, originData }) => {
   const contentRef = useRef();
   const [content, setContent] = useState('');
@@ -67,12 +71,13 @@ const DiaryEditor = ({ isEdit, originData }) => {
       <MyHeader
         headText={isEdit ? '일기 수정하기' : '새 일기쓰기'}
         leftChild={
-          <MyButton text={'< 뒤로가기'} onClick={() => navigate(-1)} />
+          <MyButton text={<BiArrowBack />} onClick={() => navigate(-1)} />
         }
         rightChild={
           isEdit && (
             <MyButton
-              text={'삭제하기'}
+              text={<BiTrash />}
+              BiTrash
               type={'negative'}
               onClick={handleRemove}
             />
@@ -81,7 +86,7 @@ const DiaryEditor = ({ isEdit, originData }) => {
       />
       <div>
         <section>
-          <h4>오늘은 언제인가요?</h4>
+          <h4 className='today_date'>오늘은 언제인가요?</h4>
           <div className='input_box'>
             <input
               className='input_date'
@@ -92,7 +97,7 @@ const DiaryEditor = ({ isEdit, originData }) => {
           </div>
         </section>
         <section>
-          <h4>오늘의 감정</h4>
+          <h4 className='today_emotion'>오늘의 감정</h4>
           <div className='input_box emotion_list_wrapper'>
             {emotionList.map((it) => {
               return (
@@ -107,10 +112,10 @@ const DiaryEditor = ({ isEdit, originData }) => {
           </div>
         </section>
         <section>
-          <h4>오늘의 일기</h4>
+          <h4 className='today_diary'>오늘의 일기</h4>
           <div className='input_box text_wrapper'>
             <textarea
-              placeholder='오늘은 어땠나요'
+              placeholder='오늘은 어땠나요?'
               ref={contentRef}
               value={content}
               onChange={(e) => setContent(e.target.value)}
@@ -119,9 +124,13 @@ const DiaryEditor = ({ isEdit, originData }) => {
         </section>
         <section>
           <div className='control_box'>
-            <MyButton text={'취소하기'} onClick={() => navigate(-1)} />
+            {/* <MyButton
+              text={'취소하기'}
+              type={'cancel'}
+              onClick={() => navigate(-1)}
+            /> */}
             <MyButton
-              text={'작성완료'}
+              text={<BiCheck />}
               type={'positive'}
               onClick={handleSubmit}
             />

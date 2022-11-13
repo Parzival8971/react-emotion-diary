@@ -8,7 +8,7 @@ const New = () => {
   }, []);
 
   return (
-    <div>
+    <div className='NewPage'>
       <DiaryEditor />
     </div>
   );

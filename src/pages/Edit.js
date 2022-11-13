@@ -31,7 +31,7 @@ const Edit = () => {
   }, [id, diaryList, navigate]);
 
   return (
-    <div>
+    <div className='EditPage'>
       {originData && <DiaryEditor isEdit={true} originData={originData} />}
     </div>
   );
