@@ -9,7 +9,7 @@ const sortOptionList = [
 ];
 
 const filterOptionList = [
-  { value: 'all', name: '전부다' },
+  { value: 'all', name: '모든 감정' },
   { value: 'good', name: '좋은 감정만' },
   { value: 'bad', name: '안좋은 감정만' },
 ];
@@ -62,6 +62,7 @@ const DiaryList = ({ diaryList }) => {
 
   return (
     <div className='DiaryList'>
+      <h4>정렬</h4>
       <div className='menu_wrapper'>
         <div className='left_col'>
           <ControlMenu

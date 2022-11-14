@@ -4,6 +4,10 @@ import { DiaryStateContext } from '../App';
 import MyHeader from '../components/MyHeader';
 import MyButton from '../components/MyButton';
 import DiaryList from '../components/DiaryList';
+import MyCountScore from '../components/MyCountScore';
+
+import { BiChevronLeft } from 'react-icons/bi';
+import { BiChevronRight } from 'react-icons/bi';
 
 const Home = () => {
   const diaryList = useContext(DiaryStateContext);
@@ -56,14 +60,29 @@ const Home = () => {
     );
   };
 
+  const allCount = data.length;
+  const goodCount = data.filter((el) => el.emotion > 3).length;
+  const badCount = data.length - goodCount;
+
   return (
     <div className='HomePage'>
       <MyHeader
         headText={headText}
-        leftChild={<MyButton text={'<'} onClick={decreaseMonth} />}
-        rightChild={<MyButton text={'>'} onClick={increaseMonth} />}
+        leftChild={
+          <MyButton text={<BiChevronLeft />} onClick={decreaseMonth} />
+        }
+        rightChild={
+          <MyButton text={<BiChevronRight />} onClick={increaseMonth} />
+        }
       />
-      <DiaryList diaryList={data} />
+      <div className='home_page_inner'>
+        <MyCountScore
+          allCount={allCount}
+          goodCount={goodCount}
+          badCount={badCount}
+        />
+        <DiaryList diaryList={data} />
+      </div>
     </div>
   );
 };

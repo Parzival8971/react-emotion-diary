@@ -90,6 +90,7 @@ header > div {
 header .head_text {
   width: 50%;
   font-size: 20px;
+  font-weight: bold;
   justify-content: center;
 }
 
@@ -108,10 +109,6 @@ header button {
 }
 
 /* DiaryList */
-
-.DiaryList {
-  padding: 20px;
-}
 
 .DiaryList .menu_wrapper {
   margin-top: 20px;
@@ -147,7 +144,7 @@ header button {
 
 .DiaryList .diaryitem_wrapper {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
 }
 
 /* DiaryITem */
@@ -163,8 +160,8 @@ header button {
 
 .DiaryItem .emotion_img_wrapper {
   cursor: pointer;
-  min-width: 80px;
-  height: 80px;
+  min-width: 50px;
+  height: 50px;
   border-radius: 5px;
   display: flex;
   justify-content: center;
@@ -373,6 +370,42 @@ header button {
   border: 1.5px solid black;
 }
 
+.HomePage .home_page_inner {
+  padding: 20px;
+}
+
+.HomePage .MyCountScore {
+  margin-bottom: 30px;
+}
+
+.HomePage .count_score_wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.HomePage .count {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 130px;
+  height: 80px;
+  border: 1px solid #dcddd6;
+  border-radius: 10px;
+}
+
+.HomePage .count h4 {
+  margin: 2px;
+  font-size: 25px;
+}
+
+.HomePage .count p {
+  margin: 2px;
+  font-size: 16px;
+  color: #959593;
+}
+
 /* Diary */
 
 .DiaryPage {
@@ -465,6 +498,7 @@ header button {
 }
 
 /* Edit */
+
 .EditPage {
   border: 1.5px solid black;
 }
