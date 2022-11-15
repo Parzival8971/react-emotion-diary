@@ -7,8 +7,7 @@ import { emotionList } from '../util/emotion';
 import MyHeader from '../components/MyHeader';
 import MyButton from '../components/MyButton';
 
-import { BiEditAlt } from 'react-icons/bi';
-import { BiArrowBack } from 'react-icons/bi';
+import { BiEditAlt, BiArrowBack } from 'react-icons/bi';
 
 const Diary = () => {
   const { id } = useParams();
@@ -79,6 +78,14 @@ const Diary = () => {
               <h4>오늘의 감정일기</h4>
               <div className='diary_content_wrapper'>
                 <p>{data.content}</p>
+              </div>
+            </section>
+            <section>
+              <div className='img_wrapper'>
+                {data.images && <h4 className='today_emotion'>오늘의 추억</h4>}
+                {data.images && (
+                  <img src={data.images} className='thumbNail' alt='이미지' />
+                )}
               </div>
             </section>
           </article>

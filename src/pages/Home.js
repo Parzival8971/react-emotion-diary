@@ -6,15 +6,21 @@ import MyButton from '../components/MyButton';
 import DiaryList from '../components/DiaryList';
 import MyCountScore from '../components/MyCountScore';
 
-import { BiChevronLeft } from 'react-icons/bi';
-import { BiChevronRight } from 'react-icons/bi';
+import { BiChevronLeft, BiChevronRight } from 'react-icons/bi';
 
 const Home = () => {
   const diaryList = useContext(DiaryStateContext);
 
   const [data, setData] = useState([]);
   const [curDate, setCurDate] = useState(new Date());
-  const headText = `${curDate.getFullYear()}년 ${curDate.getMonth() + 1}월 `;
+
+  // 한글변환
+  // const headText = `${curDate.getFullYear()}년 ${curDate.getMonth() + 1}월 `;
+
+  // 영문변환
+  const headText = ` ${curDate.toLocaleString('en-US', {
+    month: 'long',
+  })} ${curDate.getFullYear()}`;
 
   useEffect(() => {
     const titleElement = document.getElementsByTagName('title')[0];

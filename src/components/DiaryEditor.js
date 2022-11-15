@@ -15,20 +15,44 @@ import EmotionItem from './EmotionItem';
 import { getStringDate } from '../util/date';
 import { emotionList } from '../util/emotion';
 
-import { BiTrash } from 'react-icons/bi';
-import { BiArrowBack } from 'react-icons/bi';
-import { BiCheck } from 'react-icons/bi';
+import { BiTrash, BiArrowBack, BiCheck, BiImageAdd, BiX } from 'react-icons/bi';
 
 const DiaryEditor = ({ isEdit, originData }) => {
   const contentRef = useRef();
   const [content, setContent] = useState('');
   const [emotion, setEmotion] = useState(3);
   const [date, setDate] = useState(getStringDate(new Date()));
+  const [images, setImages] = useState('');
+
+  const photoInput = useRef();
 
   const { onCreate, onEdit, onRemove } = useContext(DiaryDispatchContext);
+
+  const handleImages = useCallback((e) => {
+    e.preventDefault();
+    return new Promise((resolve, reject) => {
+      const formData = new FileReader();
+      formData.readAsDataURL(e.target.files[0]);
+      formData.onload = () => {
+        setImages(formData.result);
+        resolve();
+      };
+      formData.onerror = (error) => reject(error);
+    });
+  }, []);
+
+  const deleteImage = () => {
+    setImages('');
+  };
+
+  const handleClick = useCallback(() => {
+    photoInput.current.click();
+  }, []);
+
   const handleClickEmote = useCallback((emotion) => {
     setEmotion(emotion);
   }, []);
+
   const navigate = useNavigate();
 
   const handleSubmit = () => {
@@ -43,9 +67,9 @@ const DiaryEditor = ({ isEdit, originData }) => {
       )
     ) {
       if (!isEdit) {
-        onCreate(date, content, emotion);
+        onCreate(date, content, emotion, images);
       } else {
-        onEdit(originData.id, date, content, emotion);
+        onEdit(originData.id, date, content, emotion, images);
       }
     }
     navigate('/', { replace: true });
@@ -63,6 +87,7 @@ const DiaryEditor = ({ isEdit, originData }) => {
       setDate(getStringDate(new Date(parseInt(originData.date))));
       setEmotion(originData.emotion);
       setContent(originData.content);
+      setImages(originData.images);
     }
   }, [isEdit, originData]);
 
@@ -123,12 +148,27 @@ const DiaryEditor = ({ isEdit, originData }) => {
           </div>
         </section>
         <section>
+          <div className='img_wrapper'>
+            {images && <h4 className='today_emotion'>오늘의 추억</h4>}
+            {images && <img src={images} className='thumbNail' alt='이미지' />}
+          </div>
           <div className='control_box'>
-            {/* <MyButton
-              text={'취소하기'}
-              type={'cancel'}
-              onClick={() => navigate(-1)}
-            /> */}
+            <input
+              type='file'
+              accept='image/*'
+              onChange={handleImages}
+              ref={photoInput}
+              style={{ display: 'none' }}
+            />
+            <MyButton
+              for='file'
+              text={<BiImageAdd />}
+              type={'default'}
+              onClick={handleClick}
+            />
+            {images && (
+              <MyButton text={<BiX />} type={'default'} onClick={deleteImage} />
+            )}
             <MyButton
               text={<BiCheck />}
               type={'positive'}
@@ -136,6 +176,7 @@ const DiaryEditor = ({ isEdit, originData }) => {
             />
           </div>
         </section>
+        <section></section>
       </div>
     </div>
   );
