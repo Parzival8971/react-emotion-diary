@@ -38,9 +38,9 @@ const DiaryList = ({ diaryList }) => {
   const getProcessedDiaryList = () => {
     const filterCallBack = (item) => {
       if (filter === 'good') {
-        return parseInt(item.emotion) <= 3;
+        return parseInt(item.emotion) < 3;
       } else {
-        return parseInt(item.emotion) > 3;
+        return parseInt(item.emotion) >= 3;
       }
     };
 
@@ -59,6 +59,9 @@ const DiaryList = ({ diaryList }) => {
     const sortedList = filteredList.sort(compare);
     return sortedList;
   };
+
+  // console.log(getProcessedDiaryList());
+  // console.log(diaryList);
 
   return (
     <div className='DiaryList'>

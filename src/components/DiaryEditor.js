@@ -1,12 +1,7 @@
-import React, {
-  useCallback,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+// import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { DiaryDispatchContext } from '../App';
+// import { DiaryDispatchContext } from '../App';
 
 import MyHeader from './MyHeader';
 import MyButton from './MyButton';
@@ -17,6 +12,10 @@ import { emotionList } from '../util/emotion';
 
 import { BiTrash, BiArrowBack, BiCheck, BiImageAdd, BiX } from 'react-icons/bi';
 
+import { useDispatch } from 'react-redux';
+import { createItem, editItem, removeItem } from '../redux/modules/items';
+import shortId from 'shortid';
+
 const DiaryEditor = ({ isEdit, originData }) => {
   const contentRef = useRef();
   const [content, setContent] = useState('');
@@ -26,7 +25,8 @@ const DiaryEditor = ({ isEdit, originData }) => {
 
   const photoInput = useRef();
 
-  const { onCreate, onEdit, onRemove } = useContext(DiaryDispatchContext);
+  // const { onCreate, onEdit, onRemove } = useContext(DiaryDispatchContext);
+  const dispatch = useDispatch();
 
   const handleImages = useCallback((e) => {
     e.preventDefault();
@@ -56,20 +56,22 @@ const DiaryEditor = ({ isEdit, originData }) => {
   const navigate = useNavigate();
 
   const handleSubmit = () => {
+    const dataId = shortId.generate();
     if (content.length < 1) {
       contentRef.current.focus();
       return;
     }
-
     if (
       window.confirm(
         isEdit ? '일기를 수정하시겠습니까?' : '새로운 일기를 작성하시겠습니까?'
       )
     ) {
       if (!isEdit) {
-        onCreate(date, content, emotion, images);
+        // creonCreate(date, content, emotion, images)
+        dispatch(createItem(dataId, date, content, emotion, images));
       } else {
-        onEdit(originData.id, date, content, emotion, images);
+        // onEdit(originData.id, date, content, emotion, images);
+        dispatch(editItem(originData.id, date, content, emotion, images));
       }
     }
     navigate('/', { replace: true });
@@ -77,7 +79,8 @@ const DiaryEditor = ({ isEdit, originData }) => {
 
   const handleRemove = () => {
     if (window.confirm('정말 삭제하시겠습니까?')) {
-      onRemove(originData.id);
+      // onRemove(originData.id);
+      dispatch(removeItem(originData.id));
       navigate('/', { replace: true });
     }
   };

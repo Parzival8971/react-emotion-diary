@@ -1,14 +1,18 @@
-import { useState, useContext, useEffect } from 'react';
+import { useState, useEffect } from 'react';
+// import {useContext} from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { DiaryStateContext } from '../App';
+// import { DiaryStateContext } from '../App';
 import DiaryEditor from '../components/DiaryEditor';
+
+import { useSelector } from 'react-redux';
 
 const Edit = () => {
   const [originData, setOriginData] = useState();
   const navigate = useNavigate();
   const { id } = useParams();
 
-  const diaryList = useContext(DiaryStateContext);
+  // const diaryList = useContext(DiaryStateContext);
+  const diaryList = useSelector((state) => state.items);
 
   useEffect(() => {
     const titleElement = document.getElementsByTagName('title')[0];
@@ -17,10 +21,10 @@ const Edit = () => {
 
   useEffect(() => {
     if (diaryList.length >= 1) {
-      const targetDiary = diaryList.find(
-        (it) => parseInt(it.id) === parseInt(id)
-      );
-
+      // const targetDiary = diaryList.find(
+      //   (it) => parseInt(it.id) === parseInt(id)
+      // );
+      const targetDiary = diaryList.find((it) => it.id === id);
       if (targetDiary) {
         setOriginData(targetDiary);
       } else {

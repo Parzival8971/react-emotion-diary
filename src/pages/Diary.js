@@ -1,6 +1,7 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
+// import { useContext} from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { DiaryStateContext } from '../App';
+// import { DiaryStateContext } from '../App';
 import { getStringDate } from '../util/date';
 import { emotionList } from '../util/emotion';
 
@@ -9,9 +10,13 @@ import MyButton from '../components/MyButton';
 
 import { BiEditAlt, BiArrowBack } from 'react-icons/bi';
 
+import { useSelector } from 'react-redux';
+
 const Diary = () => {
   const { id } = useParams();
-  const diaryList = useContext(DiaryStateContext);
+  // const diaryList = useContext(DiaryStateContext);
+  const diaryList = useSelector((state) => state.items);
+
   const navigate = useNavigate();
   const [data, setData] = useState();
 
@@ -22,9 +27,10 @@ const Diary = () => {
 
   useEffect(() => {
     if (diaryList.length >= 1) {
-      const targetDiary = diaryList.find(
-        (it) => parseInt(it.id) === parseInt(id)
-      );
+      // const targetDiary = diaryList.find(
+      //   (it) => parseInt(it.id) === parseInt(id)
+      // );
+      const targetDiary = diaryList.find((it) => it.id === id);
       if (targetDiary) {
         setData(targetDiary);
       } else {
@@ -33,7 +39,6 @@ const Diary = () => {
       }
     }
   }, [id, diaryList, navigate]);
-
   if (!data) {
     return <div className='DiaryPage'>로딩중입니다...</div>;
   } else {

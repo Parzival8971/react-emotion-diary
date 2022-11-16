@@ -1,5 +1,6 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { DiaryStateContext } from '../App';
+import React, { useEffect, useMemo, useState } from 'react';
+// import { useContext } from 'react';
+// import { DiaryStateContext } from '../App';
 
 import MyHeader from '../components/MyHeader';
 import MyButton from '../components/MyButton';
@@ -8,8 +9,11 @@ import MyCountScore from '../components/MyCountScore';
 
 import { BiChevronLeft, BiChevronRight } from 'react-icons/bi';
 
+import { useSelector } from 'react-redux';
+
 const Home = () => {
-  const diaryList = useContext(DiaryStateContext);
+  // const diaryList = useContext(DiaryStateContext);
+  const diaryList = useSelector((state) => state.items);
 
   const [data, setData] = useState([]);
   const [curDate, setCurDate] = useState(new Date());
@@ -52,6 +56,7 @@ const Home = () => {
 
   useEffect(() => {
     // console.log(data);
+    // console.log(diaryList);
   }, [data]);
 
   const increaseMonth = () => {
@@ -66,9 +71,15 @@ const Home = () => {
     );
   };
 
-  const allCount = data.length;
-  const goodCount = data.filter((el) => el.emotion > 3).length;
-  const badCount = data.length - goodCount;
+  const getDiaryAnalysis = useMemo(() => {
+    const allCount = data.length;
+    const badCount = data.filter((el) => el.emotion >= 3).length;
+    const goodCount = data.length - badCount;
+    // const goodRatio = (goodCount / allCount) * 100;
+    return { allCount, badCount, goodCount };
+  }, [data]);
+
+  const { allCount, badCount, goodCount } = getDiaryAnalysis;
 
   return (
     <div className='HomePage'>
