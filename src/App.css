@@ -7,6 +7,7 @@ body {
   align-items: center;
   font-family: 'Nanum Pen Script';
   margin: 0px;
+  margin-top: 4%;
 }
 
 @media (min-width: 650px) {

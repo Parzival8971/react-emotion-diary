@@ -4,7 +4,7 @@
 
 간단한 CRUD 기능을 갖춘 감성 일기장 애플리케이션.
 
-**웹 배포 : []()**
+**웹 배포 : [https://prototypediary.netlify.app/](https://prototypediary.netlify.app/)**
 
 #### Made with 🐥 by [Pazival8971](https://github.com/Parzival8971)
 
