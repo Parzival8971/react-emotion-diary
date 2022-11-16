@@ -53,7 +53,7 @@ npm start
 
 ## 참고자료
 
-참고 강의 : udemy한입 크기로 잘라 먹는 리액트(React.js)
+참고 강의 : udemy한입 크기로 잘라 먹는 리액트(React.js)  
 (https://www.udemy.com/course/winterlood-react-basic/)
 
 공부하자 달려라! 🔥
