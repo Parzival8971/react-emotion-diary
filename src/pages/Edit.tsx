@@ -5,14 +5,16 @@ import { useNavigate, useParams } from 'react-router-dom';
 import DiaryEditor from '../components/DiaryEditor';
 
 import { useSelector } from 'react-redux';
+import { RootState } from '../redux/modules/reudcer';
+import { DiaryItemType } from '../redux/modules/items';
 
 const Edit = () => {
-  const [originData, setOriginData] = useState();
+  const [originData, setOriginData] = useState<DiaryItemType>();
   const navigate = useNavigate();
   const { id } = useParams();
 
   // const diaryList = useContext(DiaryStateContext);
-  const diaryList = useSelector((state) => state.items);
+  const diaryList = useSelector((state: RootState) => state.items);
 
   useEffect(() => {
     const titleElement = document.getElementsByTagName('title')[0];
@@ -24,7 +26,9 @@ const Edit = () => {
       // const targetDiary = diaryList.find(
       //   (it) => parseInt(it.id) === parseInt(id)
       // );
-      const targetDiary = diaryList.find((it) => it.id === id);
+      const targetDiary = diaryList.find(
+        (it: { id: string | undefined }) => it.id === id
+      );
       if (targetDiary) {
         setOriginData(targetDiary);
       } else {

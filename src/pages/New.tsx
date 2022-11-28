@@ -9,7 +9,16 @@ const New = () => {
 
   return (
     <div className='NewPage'>
-      <DiaryEditor />
+      <DiaryEditor
+        isEdit={false}
+        originData={{
+          id: '',
+          date: '',
+          content: '',
+          emotion: 0,
+          images: '',
+        }}
+      />
     </div>
   );
 };

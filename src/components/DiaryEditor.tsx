@@ -13,32 +13,42 @@ import { emotionList } from '../util/emotion';
 import { BiTrash, BiArrowBack, BiCheck, BiImageAdd, BiX } from 'react-icons/bi';
 
 import { useDispatch } from 'react-redux';
-import { createItem, editItem, removeItem } from '../redux/modules/items';
+import {
+  createItem,
+  DiaryItemType,
+  editItem,
+  removeItem,
+} from '../redux/modules/items';
 import shortId from 'shortid';
 
-const DiaryEditor = ({ isEdit, originData }) => {
-  const contentRef = useRef();
+type PropsType = {
+  isEdit: boolean;
+  originData: DiaryItemType;
+};
+
+const DiaryEditor = ({ isEdit, originData }: PropsType) => {
+  const contentRef = useRef<HTMLTextAreaElement>(null);
+  const photoInput = useRef<HTMLInputElement>(null);
   const [content, setContent] = useState('');
   const [emotion, setEmotion] = useState(3);
-  const [date, setDate] = useState(getStringDate(new Date()));
-  const [images, setImages] = useState('');
-
-  const photoInput = useRef();
+  const [date, setDate] = useState<string>(getStringDate(new Date()));
+  const [images, setImages] = useState<string>('');
 
   // const { onCreate, onEdit, onRemove } = useContext(DiaryDispatchContext);
   const dispatch = useDispatch();
 
-  const handleImages = useCallback((e) => {
+  // 이미지 삽입부분 아직 이해가 안됨. 공부!!
+  const handleImages = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
-    return new Promise((resolve, reject) => {
-      const formData = new FileReader();
-      formData.readAsDataURL(e.target.files[0]);
-      formData.onload = () => {
-        setImages(formData.result);
-        resolve();
-      };
-      formData.onerror = (error) => reject(error);
-    });
+    // 읽어오기
+    const reader = new FileReader();
+    // 선택한 값
+    reader.readAsDataURL(e.target.files![0]);
+    // 로딩
+    reader.onload = () => {
+      setImages(reader.result as string);
+      // setImages(e.target.result);
+    };
   }, []);
 
   const deleteImage = () => {
@@ -46,10 +56,10 @@ const DiaryEditor = ({ isEdit, originData }) => {
   };
 
   const handleClick = useCallback(() => {
-    photoInput.current.click();
+    photoInput.current!.click();
   }, []);
 
-  const handleClickEmote = useCallback((emotion) => {
+  const handleClickEmote = useCallback((emotion: number) => {
     setEmotion(emotion);
   }, []);
 
@@ -58,7 +68,7 @@ const DiaryEditor = ({ isEdit, originData }) => {
   const handleSubmit = () => {
     const dataId = shortId.generate();
     if (content.length < 1) {
-      contentRef.current.focus();
+      contentRef.current!.focus();
       return;
     }
     if (
@@ -87,7 +97,7 @@ const DiaryEditor = ({ isEdit, originData }) => {
 
   useEffect(() => {
     if (isEdit) {
-      setDate(getStringDate(new Date(parseInt(originData.date))));
+      setDate(getStringDate(new Date(originData.date)));
       setEmotion(originData.emotion);
       setContent(originData.content);
       setImages(originData.images);
@@ -105,7 +115,6 @@ const DiaryEditor = ({ isEdit, originData }) => {
           isEdit && (
             <MyButton
               text={<BiTrash />}
-              BiTrash
               type={'negative'}
               onClick={handleRemove}
             />
@@ -163,12 +172,7 @@ const DiaryEditor = ({ isEdit, originData }) => {
               ref={photoInput}
               style={{ display: 'none' }}
             />
-            <MyButton
-              for='file'
-              text={<BiImageAdd />}
-              type={'default'}
-              onClick={handleClick}
-            />
+            <MyButton text={<BiImageAdd />} onClick={handleClick} />
             {images && (
               <MyButton text={<BiX />} type={'default'} onClick={deleteImage} />
             )}

@@ -94,7 +94,8 @@ function App() {
 
     if (localData) {
       const diaryList = JSON.parse(localData).sort(
-        (a, b) => parseInt(b.id) - parseInt(a.id)
+        (a: { id: string }, b: { id: string }) =>
+          parseInt(b.id) - parseInt(a.id)
       );
 
       if (diaryList.length >= 1) {
