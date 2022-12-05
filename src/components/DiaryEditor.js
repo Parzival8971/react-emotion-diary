@@ -28,17 +28,18 @@ const DiaryEditor = ({ isEdit, originData }) => {
   // const { onCreate, onEdit, onRemove } = useContext(DiaryDispatchContext);
   const dispatch = useDispatch();
 
+  // 이미지 삽입부분 아직 이해가 안됨. 공부!!
   const handleImages = useCallback((e) => {
     e.preventDefault();
-    return new Promise((resolve, reject) => {
-      const formData = new FileReader();
-      formData.readAsDataURL(e.target.files[0]);
-      formData.onload = () => {
-        setImages(formData.result);
-        resolve();
-      };
-      formData.onerror = (error) => reject(error);
-    });
+    // 읽어오기
+    const reader = new FileReader();
+    // 선택한 값
+    reader.readAsDataURL(e.target.files[0]);
+    // 로딩
+    reader.onload = () => {
+      setImages(reader.result);
+      // setImages(e.target.result);
+    };
   }, []);
 
   const deleteImage = () => {
