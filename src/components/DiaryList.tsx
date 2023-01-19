@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import MyButton from './MyButton';
 import DiaryItem from './DiaryItem';
@@ -15,6 +15,7 @@ const filterOptionList = [
   { value: 'bad', name: '안좋은 감정만' },
 ];
 
+<<<<<<< HEAD:src/components/DiaryList.tsx
 type PropsTypeControlMenu = {
   value: string;
   onChange: (v: string) => void;
@@ -23,6 +24,26 @@ type PropsTypeControlMenu = {
     name: string;
   }[];
 };
+=======
+const ControlMenu = React.memo(({ value, onChange, optionList }) => {
+  useEffect(() => {
+    console.log('컨트롤메뉴?');
+  }, []);
+  return (
+    <select
+      className='ControlMenu'
+      value={value}
+      onChange={(e) => onChange(e.target.value)}
+    >
+      {optionList.map((it, idx) => (
+        <option key={idx} value={it.value}>
+          {it.name}
+        </option>
+      ))}
+    </select>
+  );
+});
+>>>>>>> main:src/components/DiaryList.js
 
 const ControlMenu = React.memo(
   ({ value, onChange, optionList }: PropsTypeControlMenu) => {

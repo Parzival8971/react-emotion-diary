@@ -38,15 +38,26 @@ const DiaryEditor = ({ isEdit, originData }: PropsType) => {
   const dispatch = useDispatch();
 
   // 이미지 삽입부분 아직 이해가 안됨. 공부!!
+<<<<<<< HEAD:src/components/DiaryEditor.tsx
   const handleImages = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+=======
+  const handleImages = useCallback((e) => {
+>>>>>>> main:src/components/DiaryEditor.js
     e.preventDefault();
     // 읽어오기
     const reader = new FileReader();
     // 선택한 값
+<<<<<<< HEAD:src/components/DiaryEditor.tsx
     reader.readAsDataURL(e.target.files![0]);
     // 로딩
     reader.onload = () => {
       setImages(reader.result as string);
+=======
+    reader.readAsDataURL(e.target.files[0]);
+    // 로딩
+    reader.onload = () => {
+      setImages(reader.result);
+>>>>>>> main:src/components/DiaryEditor.js
       // setImages(e.target.result);
     };
   }, []);
