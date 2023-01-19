@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import MyButton from './MyButton';
 import DiaryItem from './DiaryItem';
@@ -15,6 +15,9 @@ const filterOptionList = [
 ];
 
 const ControlMenu = React.memo(({ value, onChange, optionList }) => {
+  useEffect(() => {
+    console.log('컨트롤메뉴?');
+  }, []);
   return (
     <select
       className='ControlMenu'
