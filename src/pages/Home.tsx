@@ -10,13 +10,15 @@ import MyCountScore from '../components/MyCountScore';
 import { BiChevronLeft, BiChevronRight } from 'react-icons/bi';
 
 import { useSelector } from 'react-redux';
+import { RootState } from '../redux/modules/reudcer';
+import { DiaryItemType } from '../redux/modules/items';
 
 const Home = () => {
   // const diaryList = useContext(DiaryStateContext);
-  const diaryList = useSelector((state) => state.items);
+  const diaryList = useSelector((state: RootState) => state.items);
 
-  const [data, setData] = useState([]);
-  const [curDate, setCurDate] = useState(new Date());
+  const [data, setData] = useState<DiaryItemType[]>([]);
+  const [curDate, setCurDate] = useState<Date>(new Date());
 
   // 한글변환
   // const headText = `${curDate.getFullYear()}년 ${curDate.getMonth() + 1}월 `;
@@ -54,10 +56,10 @@ const Home = () => {
     }
   }, [diaryList, curDate]);
 
-  useEffect(() => {
-    // console.log(data);
-    // console.log(diaryList);
-  }, [data]);
+  // useEffect(() => {
+  // console.log(data);
+  // console.log(diaryList);
+  // }, [data]);
 
   const increaseMonth = () => {
     setCurDate(
@@ -73,7 +75,7 @@ const Home = () => {
 
   const getDiaryAnalysis = useMemo(() => {
     const allCount = data.length;
-    const badCount = data.filter((el) => el.emotion >= 3).length;
+    const badCount = data.filter((el): boolean => el.emotion >= 3).length;
     const goodCount = data.length - badCount;
     // const goodRatio = (goodCount / allCount) * 100;
     return { allCount, badCount, goodCount };

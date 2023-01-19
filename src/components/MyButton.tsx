@@ -1,6 +1,12 @@
 import React from 'react';
 
-const MyButton = ({ text, type, onClick }) => {
+interface PropsType {
+  text: JSX.Element | string;
+  type: 'positive' | 'negative' | 'cancel' | 'default';
+  onClick: React.DOMAttributes<HTMLButtonElement>['onClick'];
+}
+
+const MyButton = ({ text, type, onClick }: PropsType) => {
   const btnType = ['positive', 'negative', 'cancel'].includes(type)
     ? type
     : 'default';

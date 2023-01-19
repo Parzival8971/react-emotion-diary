@@ -1,8 +1,9 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { DiaryItemType } from '../redux/modules/items';
 // import MyButton from './MyButton';
 
-const DiaryItem = ({ id, emotion, content, date }) => {
+const DiaryItem = ({ id, emotion, content, date }: DiaryItemType) => {
   const navigate = useNavigate();
 
   // const strDate = new Date(parseInt(date)).toLocaleDateString();
@@ -26,7 +27,7 @@ const DiaryItem = ({ id, emotion, content, date }) => {
       >
         <img
           src={process.env.PUBLIC_URL + `assets/emotion${emotion}.png`}
-          alt={emotion}
+          alt={content}
         />
       </div>
       {/* <div onClick={goDetail} className='info_wrapper'>

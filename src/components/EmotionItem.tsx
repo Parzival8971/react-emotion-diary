@@ -1,12 +1,19 @@
 import React from 'react';
 
+type PropsType = {
+  emotion_id: number;
+  emotion_img: string;
+  emotion_descript: string;
+  onClick: (i: number) => void;
+  isSelected: boolean;
+};
 const EmotionItem = ({
   emotion_id,
   emotion_img,
   emotion_descript,
   onClick,
   isSelected,
-}) => {
+}: PropsType) => {
   return (
     <div
       onClick={() => onClick(emotion_id)}

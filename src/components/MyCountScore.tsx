@@ -1,6 +1,12 @@
 import React from 'react';
 
-const MyCountScore = ({ allCount, goodCount, badCount }) => {
+type PropsType = {
+  allCount: number;
+  goodCount: number;
+  badCount: number;
+};
+
+const MyCountScore = ({ allCount, goodCount, badCount }: PropsType) => {
   return (
     <div className='MyCountScore'>
       <h4>요약</h4>

@@ -1,6 +1,12 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 
-const MyHeader = ({ headText, leftChild, rightChild }) => {
+type PropsType = {
+  headText: string;
+  leftChild: ReactNode;
+  rightChild: ReactNode;
+};
+
+const MyHeader = ({ headText, leftChild, rightChild }: PropsType) => {
   return (
     <header>
       <div className='head_btn_left'>{leftChild}</div>

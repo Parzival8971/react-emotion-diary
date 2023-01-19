@@ -11,14 +11,16 @@ import MyButton from '../components/MyButton';
 import { BiEditAlt, BiArrowBack } from 'react-icons/bi';
 
 import { useSelector } from 'react-redux';
+import { RootState } from '../redux/modules/reudcer';
+import { DiaryItemType } from '../redux/modules/items';
 
 const Diary = () => {
   const { id } = useParams();
   // const diaryList = useContext(DiaryStateContext);
-  const diaryList = useSelector((state) => state.items);
+  const diaryList = useSelector((state: RootState) => state.items);
 
   const navigate = useNavigate();
-  const [data, setData] = useState();
+  const [data, setData] = useState<DiaryItemType>();
 
   useEffect(() => {
     const titleElement = document.getElementsByTagName('title')[0];
@@ -30,7 +32,9 @@ const Diary = () => {
       // const targetDiary = diaryList.find(
       //   (it) => parseInt(it.id) === parseInt(id)
       // );
-      const targetDiary = diaryList.find((it) => it.id === id);
+      const targetDiary = diaryList.find(
+        (it: { id: string | undefined }): boolean => it.id === id
+      );
       if (targetDiary) {
         setData(targetDiary);
       } else {
@@ -43,7 +47,7 @@ const Diary = () => {
     return <div className='DiaryPage'>로딩중입니다...</div>;
   } else {
     const curEmotionData = emotionList.find(
-      (it) => parseInt(it.emotion_id) === parseInt(data.emotion)
+      (it) => it.emotion_id === data.emotion
     );
 
     return (
@@ -71,11 +75,11 @@ const Diary = () => {
                 ].join(' ')}
               >
                 <img
-                  src={curEmotionData.emotion_img}
-                  alt={curEmotionData.emotion_id}
+                  src={curEmotionData!.emotion_img}
+                  alt={curEmotionData!.emotion_descript}
                 />
                 <div className='emotion_descript'>
-                  # {curEmotionData.emotion_descript}
+                  # {curEmotionData!.emotion_descript}
                 </div>
               </div>
             </section>
