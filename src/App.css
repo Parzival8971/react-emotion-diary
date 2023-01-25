@@ -12,7 +12,7 @@ body {
 
 @media (min-width: 650px) {
   .App {
-    width: 480px;
+    width: 400px;
   }
 }
 
@@ -29,10 +29,10 @@ body {
 }
 
 .App {
-  padding-top: 20px;
-  padding-left: 20px;
-  padding-right: 20px;
-  padding-bottom: 20px;
+  padding-top: 15px;
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-bottom: 15px;
 }
 
 /*  MyButton */
