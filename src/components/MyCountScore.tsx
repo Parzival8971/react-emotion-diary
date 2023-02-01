@@ -28,4 +28,4 @@ const MyCountScore = ({ allCount, goodCount, badCount }: PropsType) => {
   );
 };
 
-export default MyCountScore;
+export default React.memo(MyCountScore);
