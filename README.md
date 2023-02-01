@@ -161,7 +161,7 @@ const DiaryList = ({ diaryList }: PropsType) => {
 ## localStorage 값을 저장하기위해 newState로 값을 할당
 
 - reducer에서 localStorage.set 값을 저장 후, useEffect로 get후 데이터 렌더링
-  ![로컬값](https://user-images.githubusercontent.com/83544570/216126578-8a4b40f5-7fb9-4d4a-91fb-8f060c01f491.gif)
+  ![로컬값](https://user-images.githubusercontent.com/83544570/216128262-a7f0bc3f-5ebc-420c-b3f3-e2b3db889b5f.gif)
 
 ```jsx
 😀 redux.items.ts
