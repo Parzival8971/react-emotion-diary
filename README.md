@@ -27,6 +27,41 @@
 
 ---
 
+## 구조도
+
+```
+📦
+├─ src
+│  ├─ App.css
+│  ├─ App.tsx
+│  ├─ index.css
+│  ├─ index.tsx
+│  ├─ components
+│  │  ├─ DiaryEditor.tsx
+│  │  ├─ DiaryItem.tsx
+│  │  ├─ DiaryList.tsx
+│  │  ├─ EmotionItem.tsx
+│  │  ├─ MyButton.tsx
+│  │  ├─ MyCountScore.tsx
+│  │  ├─ MyHeader.tsx
+│  ├─ pages
+│  │  ├─ Diary.tsx
+│  │  ├─ Edit.tsx
+│  │  ├─ Home.tsx
+│  │  └─ New.tsx
+│  ├─ redux
+│  │  ├─ modules
+│  │  │  ├─ items.ts
+│  │  │  └─ reudcer.ts
+│  │  └─ store.ts
+│  └─ util
+│     ├─ date.ts
+│     └─ emotion.ts
+└─ tsconfig.json
+```
+
+---
+
 ## 상단 Header의 MyButton 컴포넌트의 재사용성
 
 - Mybutton은 props로 받는 타입에 따라 className 스타일이 동적 추가됩니다.
