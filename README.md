@@ -13,7 +13,7 @@
 ## 프로젝트 설명
 
 이 프로젝트는 Todo 애플리케이션을 활용하여, `감정 일기 다이어리`를 만듭니다.
-간단한 CURD 기능을 갖추고 작업을 수행하였습니다. `React.js`를 사용하고, 상태를 관리하기 위해 `Redux`를 사용하였습니다. UI 부분은 `CSS`을 사용하였습니다. 이 앱을 만들면서 소규모이지만, `React`의 컴포넌트 단위의 재사용의 중요성과 성능개선을 위한 메모이제이션 처리에 대해 학습을 중점으로 만들었습니다.
+간단한 CURD 기능을 갖추고 작업을 수행하였습니다. `React.js`를 사용하고, 상태를 관리하기 위해 `Redux`를 사용하였습니다. UI 부분은 `CSS`을 사용하였습니다. 이 앱을 만들면서 소규모이지만, `React`의 컴포넌트 단위 재사용의 중요성과 성능개선을 위한 메모이제이션 처리에 대해 학습을 중점으로 만들었습니다.
 
 ---
 
@@ -27,16 +27,17 @@
 
 ---
 
-## 기억에 남는 코드
+## 상단 Header의 MyButton 컴포넌트의 재사용성
 
-- 상단 Header의 Button을 색구분과 재사용성 있게 컴포넌트화를 하였습니다.
+- Mybutton은 props로 받는 타입에 따라 className 스타일이 동적 추가됩니다.
+- 이제 어디서든 꺼내어서 타입에 따라 재사용 할 수 있습니다.
   ![버튼](https://user-images.githubusercontent.com/83544570/216121367-1aa15626-f84f-4975-aa5c-8e2c7ce0fbe2.png)
 
 ```jsx
 😀 Home.tsx
   <div className='HomePage'>
     <MyHeader
-      // 컴포넌트에서 자식으로 또 컴포넌트를 내려서 재사용 한것.
+      // 컴포넌트에서 자식으로 또 컴포넌트를 내려서 재사용 한 것
       headText={headText}
       leftChild={<MyButton text={<BiChevronLeft/>} onClick={decreaseMonth} />}
       rightChild={<MyButton text={<BiChevronRight/>} onClick={increaseMonth} />}
@@ -55,7 +56,7 @@
   )};
 
 😄 MyButton.tsx
-  // text와 type를 받아서 그에따라 타입의 버튼색 구분을 위한 재사용 컴포넌트로 활용
+  // text와 type을 받아서 그에 따라 타입의 버튼의 색 구분을 위한 재사용 컴포넌트로 활용
   const MyButton = ({ text, type, onClick }: PropsType) => {
   const btnType = ['positive', 'negative', 'cancel'].includes(type) ? type : 'default';
   return (
@@ -68,14 +69,15 @@
 };
 ```
 
-## Select 버튼과 그에 따른 filtering 기능 만들기
+## 최신순 Sort 기능과 감정점수에 따른 filter 기능을 만들었습니다.
 
-- State에 상수값 상태저장 후 값에따라 저장되는 필터함수와 정렬함수를 구현하였습니다.
+- 정렬기능을 담을 state와 필터기능을 담을 state로 만들어서 데이터를 반환합니다.
+- 이 부분은 만들면서 이해하기가 어려웠습니다. ⭐️ 자세히 설명을 기록해둡니다.
   ![sort](https://user-images.githubusercontent.com/83544570/216122325-ded72101-70ce-4aab-bebe-7aac6e03f0c2.gif)
 
 ```jsx
 😀 DiaryList.tsx
-// 두개의 select에 사용할 상수값 지정
+// 두 개의 select 버튼에에 사용할 상숫값을 지정합니다.
  const sortOptionList = [
   { value: 'latest', name: '최신순' },
   { value: 'oldest', name: '오래된 순' },
@@ -88,12 +90,12 @@ const filterOptionList = [
 ];
 
 const DiaryList = ({ diaryList }: PropsType) => {
-  // select 버튼 상태관리를 위한 state
+  // select 버튼 상태관리를 위한 state입니다.
   const [sortType, setSortType] = useState<string>('latest');
   const [filter, setFilter] = useState<string>('all');
-  // 원본 diaryList를 깊은복사로 filter기능 가공
+  // 원본 diaryList를 깊은복사로 filter 기능을 가공합니다.
   const getProcessedDiaryList = () => {
-    // state의 값 good에 따라 filter 함수 구현
+    // state의 값 good에 따라 filter 함수 구현를 합니다.
     const filterCallBack = (item: { emotion: string }): boolean => {
       if (filter === 'good') {
         return parseInt(item.emotion) < 3;
@@ -101,7 +103,7 @@ const DiaryList = ({ diaryList }: PropsType) => {
         return parseInt(item.emotion) >= 3;
       }
     };
-// state의 값 latest에 따라 sort 함수 구현
+// sortType state의 값 latest에 따라 sort 함수 구현를 합니다.
     const compare = (a: { date: string }, b: { date: string }) => {
       if (sortType === 'latest') {
         return parseInt(b.date) - parseInt(a.date);
@@ -109,23 +111,24 @@ const DiaryList = ({ diaryList }: PropsType) => {
         return parseInt(a.date) - parseInt(b.date);
       }
     };
-// diarList 원본 값을 sort경우 원본이 바뀌게 됨, 깊은복사로 원본과 다른 값 복사
+// diarList 원본 값을 sort경우 원본이 바뀌게 됨, 깊은복사로 원본과 다른 값 복사합니다.
     const copyList = JSON.parse(JSON.stringify(diaryList));
-    // state의 값이 all일 경우는 전부다, 아닐경우는 필터 적용
+    // state의 값이 all일 경우는 전부다, 아닐 경우는 필터 적용합니다.
     const filteredList =
       filter === 'all'
         ? copyList
         : copyList.filter((it: { emotion: string }) => filterCallBack(it));
-    // 필터가 적용된 diaryList에 sort 함수 적용
+    // 필터가 적용된 diaryList에 sort 함수를 적용합니다.
     const sortedList = filteredList.sort(compare);
     return sortedList;
   };
 
 ```
 
-## Header 상단의 년도, 날짜, 시간 필터링
+## Header 상단의 년도, 날짜, 시간 필터링 기능을 만들었습니다.
 
-- 해당년도의 달의 첫번째 날짜와 마지막 날짜의 끝시간까지 구해서 필터링하기
+- 해당연도의 달의 첫 번째 날짜와 마지막 날짜의 끝 시간까지 구해서 필터링하기
+- new Date 메서드를 커스텀 하여서, 필터링합니다. ⭐️ 처음이라 어려웠습니다.
   ![값필터](https://user-images.githubusercontent.com/83544570/216125843-991afbe0-65b4-4a46-86f1-3c82361d8765.gif)
 
 ```jsx
@@ -134,13 +137,13 @@ const DiaryList = ({ diaryList }: PropsType) => {
  useEffect(() => {
   // data가 하나라도 있다면,
     if (diaryList.length >= 1) {
-      // 이번년도 해당달의 첫날짜를 구합니다.
+      // 이번 연도 해당 달의 첫 날짜를 구합니다.
       const firstDay = new Date(
         curDate.getFullYear(),
         curDate.getMonth(),
         1
       ).getTime();
-      // 이번년도 해당달의 마지막 날짜 마지막 시간,분,초 까지 구합니다.
+      // 이번 연도 해당 달의 마지막 날짜 마지막 시간,분,초 까지 구합니다.
       const lastDay = new Date(
         curDate.getFullYear(),
         curDate.getMonth() + 1,
@@ -149,7 +152,7 @@ const DiaryList = ({ diaryList }: PropsType) => {
         59,
         59
       ).getTime();
-      // 첫 날짜와 ~ 마지막 날짜의 끝까지 필터해서 첫 화면에 render링
+      // 첫 날짜와 ~ 마지막 날짜의 끝까지 필터해서 첫 화면에 렌더링.
       setData(
         diaryList.filter((it) => firstDay <= it.date && it.date <= lastDay)
       );
@@ -158,9 +161,9 @@ const DiaryList = ({ diaryList }: PropsType) => {
 
 ```
 
-## localStorage 값을 저장하기위해 newState로 값을 할당
+## 새로고침에도 data를 유지하기 위해 localStorage로 데이터 관리하였습니다.
 
-- reducer에서 localStorage.set 값을 저장 후, useEffect로 get후 데이터 렌더링
+- reducer에서 localStorage.set 값을 저장 후, useEffect로 get 후 데이터 화면보여주기
   ![로컬값](https://user-images.githubusercontent.com/83544570/216128262-a7f0bc3f-5ebc-420c-b3f3-e2b3db889b5f.gif)
 
 ```jsx
@@ -169,7 +172,7 @@ const DiaryList = ({ diaryList }: PropsType) => {
   previousState: DiaryItemStateType = InitialState,
   action: DiaryItemActionType
 ) {
-  // 새로 담을 newState를 만들어주었습니다.
+  // localStorage에 담기 위해 새로 값을 담을 newState를 만들어주었습니다.
   let newState: DiaryItemStateType = [];
   switch (action.type) {
     case INIT_ITEM: {
@@ -192,13 +195,13 @@ const DiaryList = ({ diaryList }: PropsType) => {
     default:
       return previousState;
   }
-  // switch문의 break를 거처서 상태변화 값이 localStorage에 담기게 됩니다.
+  // switch문의 break를 거쳐 상태변화 값이 localStorage에 담기게 됩니다.
   localStorage.setItem('diary', JSON.stringify(newState));
   return newState;
 }
 
 😎 App.tsx
-// App 상위에서 localStorage에 값이 있을경우 꺼내에서 dispatch로 실행하게됩니다.
+// App 상위에서 localStorage에 값이 있으면 꺼내서 dispatch로 실행하게 됩니다.
 function App() {
   const dispatch = useDispatch();
   useEffect(() => {
@@ -216,9 +219,9 @@ function App() {
 
 ```
 
-## 성능 최적화는 어떻게 하는지에 대해서 적용.
+## useCallback, useMemo, React.Memo를 사용하여 불필요한 리렌더링을 막아주었습니다.
 
-- 코드를 보면서판단 하는 정적분석과 도구를 사용해서 확인하는 동적분석이 있었습니다.
+- 코드를 보면서 판단하는 정적분석과 도구를 사용해서 확인하는 동적 분석 두 가지의 경우로 도구를 활용하여 눈으로 체크하였습니다.
 - ReactDevTool로 직접 렌더링되는 부분을 보아가면서 useCallback, useMemo, React.Memo로 적용하였습니다.
 - 최신버튼과 모든감정의 리렌더링이 일어나는 부분이 없어짐을 확인하였습니다.
   ![랜더링](https://user-images.githubusercontent.com/83544570/216116687-124495c0-1487-48e5-8421-c7874a2e12b0.gif)
@@ -302,7 +305,7 @@ const handleClickEmote = useCallback((emotion: number) => {
 
 > 🧐 : 동적 타입 언어 ? JavaScript vs TypeScript
 
-- JavaScript는 자유롭게 사용해도 제한이 없었고, TypeScript 엄격모드를 사용한 것 같았습니다. 기존 JS의 경우는 매개변수와 인자등을 찾기위해 다시 컴포넌트로 돌아가서 확인하거나, 또는 반환되는 값이 string 인데도 number로 인식이 되어도 형변환으로 인식에 문제가 없었습니다. 이러한 문제점을 바로 잡아준게 TypeScript가 아닌가 싶습니다. 전부 오류를 잡아주었고, 타입가드로 예방과 초기흐름을 더 어떻게 잡으면 좋을지 다시 생각해주게 하는 좋은 정적 타입 언어였습니다.
+- JavaScript는 자유롭게 사용해도 제한이 없었고, TypeScript 엄격모드를 사용한 것 같았습니다. 기존 JS의 경우는 매개변수와 인자 등을 찾기 위해 다시 컴포넌트로 돌아가서 확인하거나, 또는 반환되는 값이 string 인데도 number로 인식이 되어도 형 변환으로 인식에 문제가 없었습니다. 이러한 문제점을 바로 잡아주는 것이 TypeScript가 아닌가 싶습니다. 전부 오류를 잡아주었고, 타입가드로 예방과 초기 흐름을 더 어떻게 잡으면 좋을지 다시 생각해주게 하는 좋은 정적 타입 언어였습니다.
 
 <br/><br/>
 
@@ -312,6 +315,7 @@ const handleClickEmote = useCallback((emotion: number) => {
 
 > 🧑🏻‍💻 : 학습하며 개발과정 중 어려웠던 부분
 
-- MyButton 컴포넌트와 같이 부품화 가능한 부분은 이렇게 사용하는게 효율적이락 생각이 들었습니다. 컴포넌트에서 Props 컴포넌트를 내려주는 부분은 알지 못하였고, 이번 기회에 사용법을 알게 되었습니다.
-- Redux를 변환하는 과정이 처음 학습자에게는 조금 어려운 부분이였습니다. reducer와 action, store로 파일을 구분했는데, 파일 구조가 나눠지다보니 여기저기 들어가서 확인해 보는 부분이 어려웠습니다. 학습중에 Ducks패턴 구조를 알게 되었고 적용해 보았습니다. 확실히 modules 폴더로 관리하니 편했습니다만, 코드가 엄청 길어져 버리는 단점이 생겼습니다.
-- 성능 최적화에 대해서 적용하는게 어려웠습니다. 아직 학습한 부분은 useCallback, useMemo, Memo 정도 부분인데, 콜백과 메모에 대해서는 적용을 할 수는 있지만 Memo HOC로 적용하는 부분은 또 equl로 적용을 해주어야하는데 적용을 하면 또 다른곳에서 리렌더링이 일어났습니다. 최소한의 리렌더링 최적화 적용을 알게되었고, 더 깊게 공부해보고 싶습니다.
+- MyButton 컴포넌트와 같이 부품화 가능한 부분은 이렇게 사용하는 게 효율적이락 생각이 들었습니다. 기존에는 map으로만 활용 하였지만, 컴포넌트에서 Props 컴포넌트를 내려주는 부분은 알지 못하였고, 이번 기회에 사용법을 알게 되었습니다.
+- Redux를 변환하는 과정이 처음 학습자에게는 조금 어려운 부분이었습니다. reducer와 action, store로 파일을 구분했는데, 파일 구조가 나눠지다 보니 여기저기 들어가서 확인해 보는 부분이 어려웠습니다. 학습 중에 Ducks패턴 구조를 알게 되었고 적용해 보았습니다. 확실히 modules 폴더로 관리하니 편했습니다만, 코드가 엄청 길어져 버리는 단점이 생겼습니다.
+- 성능 최적화에 대해서 적용하는데 어려웠습니다. 아직 학습한 부분은 useCallback, useMemo, Memo 정도 부분인데, 콜백과 메모에 대해서는 적용을 할 수는 있지만 Memo HOC로 적용하는 부분은 또 equl로 적용을 해주어야하는데 적용을 하면 또 다른곳에서 리렌더링이 일어났습니다. 최소한의 리렌더링 최적화 적용을 알게되었고, 더 깊게 공부해보고 싶습니다.
+- 정렬과 필터, 날짜 커스텀 등 바로바로 적용할 수 있는 생각이 나지 않아 구글링을 해가면서 공부하였습니다. 스스로 생각하며 알고리즘과 코딩테스트의 중요성을 느끼고 있습니다. 수학적 사고력도 중요하다고 생각합니다.
